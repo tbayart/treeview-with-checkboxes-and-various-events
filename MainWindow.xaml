@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:WpfApplication"
+        Title="TreeView with CheckBoxes" Height="362" Width="558">
+    <Window.Resources>
+        <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding Children}">
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding IsChecked}" Uid="{Binding Id}" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown"/>
+                <TextBlock Text="{Binding Text}"/>                
+            </StackPanel>
+        </HierarchicalDataTemplate>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid Background="#FFDFEDFF">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TreeView Name="treeView" Grid.Row="0" Background="#FFDFEDFF" />
+            <StatusBar Grid.Row="1"  HorizontalAlignment="Stretch"  Background="#FFDFEDFF" Margin="0,0,6,0">
+                <Button Content="Check all" Width="100" Click="buttonCheckAll_Click" />
+                <Button Content="Uncheck all"  Width="100" Click="buttonUncheckAll_Click" />
+                <Button Content="Invert"  Width="100" Click="buttonInvert_Click" />
+                <Button Content="Expand all"   Width="100" Click="buttonExpand_Click" />
+                <Button Content="Collapse all"  Width="100" Click="buttonCollapse_Click" />
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>
