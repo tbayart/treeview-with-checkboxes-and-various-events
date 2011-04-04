@@ -74,44 +74,58 @@ namespace WpfApplication
         {
             if (this.PropertyChanged != null)
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            int countCheck = 0;
             if (propertyName == "IsChecked")
             {
                 if (this.Id == CheckBoxId.checkBoxId && this.Parent.Count == 0 && this.Children.Count != 0)
                 {
-                    CheckedTreeParent(this.Children, this.IsChecked);
+                    CheckChildNodes(this.Children, this.IsChecked);
                 }
                 if (this.Id == CheckBoxId.checkBoxId && this.Parent.Count > 0 && this.Children.Count > 0)
                 {
-                    CheckedTreeChildMiddle(this.Parent, this.Children, this.IsChecked);
+                    CheckChildAndParent(this.Parent, this.Children, this.IsChecked);
                 }
                 if (this.Id == CheckBoxId.checkBoxId && this.Parent.Count > 0 && this.Children.Count == 0)
                 {
-                    CheckedTreeChild(this.Parent, countCheck);
+                    CheckParentNodes(this.Parent);
                 }
             }            
         }
 
-        private void CheckedTreeChildMiddle(ObservableCollection<Node> itemsParent, ObservableCollection<Node> itemsChild, bool? isChecked)
+        /// <summary>
+        /// Check child and parent items
+        /// </summary>
+        /// <param name="itemsParent">Parent items collection.</param>
+        /// <param name="itemsChild">Child items collection.</param>
+        /// <param name="isChecked">Condition property IsChecked.</param>
+        private void CheckChildAndParent(ObservableCollection<Node> itemsParent, ObservableCollection<Node> itemsChild, bool? isChecked)
         {
-            int countCheck = 0;
-            CheckedTreeParent(itemsChild, isChecked);
-            CheckedTreeChild(itemsParent, countCheck);
+            CheckChildNodes(itemsChild, isChecked);
+            CheckParentNodes(itemsParent);
         }
 
-        private void CheckedTreeParent(ObservableCollection<Node> items, bool? isChecked)
+        /// <summary>
+        /// Check child items
+        /// </summary>
+        /// <param name="itemsChild">Child items collection.</param>
+        /// <param name="isChecked">Condition property IsChecked.</param>
+        private void CheckChildNodes(ObservableCollection<Node> itemsChild, bool? isChecked)
         {
-            foreach (Node item in items)
+            foreach (Node item in itemsChild)
             {
                 item.IsChecked = isChecked;
-                if (item.Children.Count != 0) CheckedTreeParent(item.Children, isChecked);
+                if (item.Children.Count != 0) CheckChildNodes(item.Children, isChecked);
             }
         }
 
-        private void CheckedTreeChild(ObservableCollection<Node> items, int countCheck)
-        {            
+        /// <summary>
+        /// Check parent items
+        /// </summary>
+        /// <param name="itemsParent">Parent items collection.</param>
+        private void CheckParentNodes(ObservableCollection<Node> itemsParent)
+        {
+            int countCheck = 0;
             bool isNull = false;
-            foreach (Node paren in items)
+            foreach (Node paren in itemsParent)
             {
                 foreach (Node child in paren.Children)
                 {
@@ -126,7 +140,7 @@ namespace WpfApplication
                 else if (countCheck == 0) paren.IsChecked = false;
                 else if (countCheck == paren.Children.Count && isNull) paren.IsChecked = null;
                 else if (countCheck == paren.Children.Count && !isNull) paren.IsChecked = true;
-                if (paren.Parent.Count != 0) CheckedTreeChild(paren.Parent, 0);
+                if (paren.Parent.Count != 0) CheckParentNodes(paren.Parent);
             }
         }
     }
