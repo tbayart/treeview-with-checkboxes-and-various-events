@@ -55,6 +55,22 @@ namespace WpfApplication
             CheckBoxId.checkBoxId = currentCheckBox.Uid;
         }
 
+        /// <summary>
+        /// Take Id from CheckBox Uid and transfer value to CheckBoxId struct
+        /// </summary>
+        /// <param name="sender">The CheckBox check with space button.</param>
+        /// <param name="e">Parameters associated to the mouse event.</param>
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key==Key.Space)
+            {
+                CheckBox currentCheckBox = (CheckBox)sender;
+                CheckBoxId.checkBoxId = currentCheckBox.Uid;
+            }
+        }
+
+
+
         #region Check, Uncheck and Invert all checkboxes
 
         private void buttonCheckAll_Click(object sender, RoutedEventArgs e)
@@ -121,5 +137,7 @@ namespace WpfApplication
         }
 
         #endregion
+
+
     }
 }

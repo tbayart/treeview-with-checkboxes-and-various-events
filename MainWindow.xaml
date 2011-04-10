@@ -6,7 +6,7 @@
     <Window.Resources>
         <HierarchicalDataTemplate DataType="{x:Type local:Node}" ItemsSource="{Binding Children}">
             <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsChecked}" Uid="{Binding Id}" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown"/>
+                <CheckBox IsChecked="{Binding IsChecked}" Uid="{Binding Id}" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown" PreviewKeyDown="OnKeyDown" />
                 <TextBlock Text="{Binding Text}"/>                
             </StackPanel>
         </HierarchicalDataTemplate>
